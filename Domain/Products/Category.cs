@@ -12,8 +12,6 @@ namespace IWantApp.Domain.Products
                 .IsNotNullOrEmpty(createdBy, "CreatedBy")
                 .IsNotNullOrEmpty(editedBy, "EditedBy");
 
-
-
             AddNotifications(contract);
 
             Name = name;
