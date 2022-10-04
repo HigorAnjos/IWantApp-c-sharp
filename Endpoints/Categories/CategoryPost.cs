@@ -1,5 +1,6 @@
 ﻿using IWantApp.Domain.Products;
 using IWantApp.Properties.Infra.Data;
+using System.Xml.Linq;
 
 namespace IWantApp.Endpoints.Categories
 {
@@ -11,14 +12,16 @@ namespace IWantApp.Endpoints.Categories
 
         public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
         {
-            var category = new Category
+            var category = new Category(categoryRequest.Name)
             {
-                Name = categoryRequest.Name,
                 CreatedBy = "Test",
                 CreatedOn = DateTime.Now,
                 EditedBy = "Test",
                 EditedOn = DateTime.Now,
             };
+
+            if (!category.IsValid)
+                return Results.BadRequest(category.Notifications);
 
             context.Categories.Add(category);
             context.SaveChanges();
